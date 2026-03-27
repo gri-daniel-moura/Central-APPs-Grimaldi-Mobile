@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-page-bg: #F4F6F9;
+  --color-card-surface: #FFFFFF;
+  --color-primary: #094279;
+  --color-primary-light: #E8EEF6;
+  --color-text-primary: #1A2A3A;
+  --color-text-secondary: #6B7D93;
+  --color-border-default: #DDE3EB;
+  --color-status-active: #2ECC8F;
+  --color-status-offline: #C5CDD8;
+  --color-alert-badge: #E05C5C;
+  --color-splash-bg: #080C12;
+  --color-splash-bar-bg: #1C2A3A;
+  --color-splash-text: #E8EDF4;
+
+  --shadow-card: 0px 2px 14px rgba(9, 66, 121, 0.08);
+  --shadow-card-hover: 0px 4px 20px rgba(9, 66, 121, 0.12);
+  --shadow-topbar: 0 1px 6px rgba(9, 66, 121, 0.06);
+  --shadow-tab-active: 0 -2px 8px rgba(9, 66, 121, 0.06);
+
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---- Root custom properties ---- */
+:root {
+  --touch-target-min: 52px;
+}
+
+/* ---- Base ---- */
+html {
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-page-bg);
+  color: var(--color-text-primary);
+  margin: 0;
+  min-height: 100dvh;
+}
+
+/* ---- Splash Loading Bar (GPU: uses scaleX) ---- */
+@keyframes splash-fill {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+.splash-bar-fill {
+  transform-origin: left center;
+  animation: splash-fill 1.8s ease-out forwards;
+}
+
+/* ---- Splash Fade Out (300ms) ---- */
+@keyframes splash-fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+
+.splash-fadeout {
+  animation: splash-fadeout 0.3s ease-out forwards;
+}
+
+/* ---- Embedded View Slide Up ---- */
+@keyframes slide-up {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slide-up 0.2s ease-out forwards;
+}
+
+/* ---- Embedded View Slide Down (close) ---- */
+@keyframes slide-down {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.slide-down {
+  animation: slide-down 0.2s ease-in forwards;
+}
+
+/* ---- Loading progress bar (GPU: uses scaleX) ---- */
+@keyframes loading-progress {
+  0% { transform: scaleX(0); }
+  90% { transform: scaleX(0.9); }
+  100% { transform: scaleX(1); }
+}
+
+.iframe-loading-bar {
+  transform-origin: left center;
+  animation: loading-progress 10s ease-out forwards;
+}
+
+/* ---- Loading bar fade out ---- */
+@keyframes fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fade-out-200 {
+  animation: fade-out 0.2s ease-out forwards;
+}
+
+/* ---- Tab content transition ---- */
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.tab-content-enter {
+  animation: fade-in 0.12s ease-out forwards;
+}
+
+/* ---- Card touch state ---- */
+.app-card {
+  touch-action: manipulation;
+  transition: transform 150ms ease, background 150ms ease;
+  min-height: 88px;
+}
+
+.app-card:active {
+  transform: scale(0.96);
+  background: #F0F4F9 !important;
+}
+
+/* ---- User-select none for UI chrome ---- */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---- Scrollbar Hide ---- */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---- Scroll behavior ---- */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ---- Safe area ---- */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ---- Backdrop filter fallback (Zebra Enterprise Browser) ---- */
+@supports not (backdrop-filter: blur(1px)) {
+  .tab-nav-bg {
+    background: #FFFFFF !important;
+  }
+}
+
+/* ---- Landscape on short screens ---- */
+@media (orientation: landscape) and (max-height: 420px) {
+  .topbar-responsive {
+    height: 44px !important;
+  }
+  .topbar-spacer {
+    padding-top: 44px !important;
+  }
+  .embedded-header {
+    height: 44px !important;
+  }
+  .tab-pill {
+    height: 40px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+  .section-title-responsive {
+    font-size: 1rem !important;
+  }
 }

@@ -1,0 +1,16 @@
+{
+  "name": "Central de Sistemas",
+  "short_name": "Grimaldi Hub",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080C12",
+  "theme_color": "#094279",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dbit1mc1v/image/upload/v1752521359/ChatGPT_Image_Jul_14_2025_01_55_26_PM_rlyv4w.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
