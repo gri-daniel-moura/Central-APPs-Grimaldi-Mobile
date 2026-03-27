@@ -25,6 +25,9 @@ export default function AdminForm({ app, onSave, onClose }: AdminFormProps) {
       `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`
   );
   const [order, setOrder] = useState(app?.order || 1);
+  const [openMode, setOpenMode] = useState<"iframe" | "navigate">(
+    app?.openMode || "iframe"
+  );
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,6 +42,7 @@ export default function AdminForm({ app, onSave, onClose }: AdminFormProps) {
       notificationCount,
       iconSvg,
       order,
+      openMode,
     });
     setSaving(false);
   };
@@ -188,6 +192,53 @@ export default function AdminForm({ app, onSave, onClose }: AdminFormProps) {
                 {status === "active" ? "Ativo" : "Offline"}
               </button>
             </div>
+          </div>
+
+          {/* Open Mode */}
+          <div>
+            <label
+              className="block mb-1 font-medium"
+              style={{ fontSize: "0.75rem", color: "#6B7D93" }}
+            >
+              Modo de Abertura
+            </label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setOpenMode("iframe")}
+                className="flex-1 px-3 py-2.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition-all"
+                style={{
+                  ...inputStyle,
+                  background: openMode === "iframe" ? "#E8EEF6" : "#F4F6F9",
+                  borderColor: openMode === "iframe" ? "#094279" : "#DDE3EB",
+                  color: openMode === "iframe" ? "#094279" : "#6B7D93",
+                  fontWeight: openMode === "iframe" ? 600 : 400,
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/></svg>
+                Embutido
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpenMode("navigate")}
+                className="flex-1 px-3 py-2.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition-all"
+                style={{
+                  ...inputStyle,
+                  background: openMode === "navigate" ? "#E8EEF6" : "#F4F6F9",
+                  borderColor: openMode === "navigate" ? "#094279" : "#DDE3EB",
+                  color: openMode === "navigate" ? "#094279" : "#6B7D93",
+                  fontWeight: openMode === "navigate" ? 600 : 400,
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                Navegar
+              </button>
+            </div>
+            <p className="mt-1" style={{ fontSize: "0.625rem", color: "#6B7D93" }}>
+              {openMode === "iframe"
+                ? "Abre dentro do app (visualizador embutido)"
+                : "Navega para a URL (para sistemas que bloqueiam iframe)"}
+            </p>
           </div>
 
           {/* Notification Count + Order Row */}

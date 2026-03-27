@@ -9,6 +9,8 @@ export interface AppCard {
   notificationCount: number;
   order: number;
   updatedAt: string;
+  /** "iframe" = embedded viewer, "navigate" = full-page nav (for systems that block X-Frame-Options) */
+  openMode?: "iframe" | "navigate";
 }
 
 export type TabKey = "producao" | "chamados" | "formularios";

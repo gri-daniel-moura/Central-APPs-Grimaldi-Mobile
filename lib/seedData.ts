@@ -68,6 +68,7 @@ export const seedApps: AppCard[] = [
     notificationCount: 0,
     order: 2,
     updatedAt: new Date().toISOString(),
+    openMode: "navigate",
   },
   // Tab: formularios
   {

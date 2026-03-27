@@ -76,6 +76,13 @@ export default function HomePage() {
   }, []);
 
   const handleOpenApp = useCallback((app: AppCardType) => {
+    // "navigate" mode: full-page navigation (for systems that block X-Frame-Options)
+    // In Android WebView APK, the back button returns to hub via webView.goBack()
+    if (app.openMode === "navigate") {
+      window.location.href = app.url;
+      return;
+    }
+    // Default "iframe" mode: embedded viewer overlay
     setSelectedApp(app);
   }, []);
 
